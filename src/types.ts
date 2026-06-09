@@ -3,12 +3,13 @@
  */
 
 export type StepStatus =
-	| "pending"
-	| "running"
-	| "waiting"
-	| "completed"
-	| "error";
-export type WorkflowStatus = "idle" | "running" | "completed" | "error";
+	| 'pending'
+	| 'running'
+	| 'waiting'
+	| 'completed'
+	| 'error';
+
+export type WorkflowStatus = 'idle' | 'running' | 'completed' | 'error';
 
 export interface StepDefinition {
 	id: string;
@@ -26,37 +27,44 @@ export interface WorkflowState {
 }
 
 export interface WorkflowUpdateMessage {
-	type: "workflow_update";
+	type: 'workflow_update';
 	currentStep: string | null;
 	stepStatuses: Record<string, StepStatus>;
-	workflowStatus: "running" | "completed" | "error";
+	workflowStatus: 'running' | 'completed' | 'error';
 	timestamp: number;
 }
 
-// Step definitions for the workflow
+// ── Hotel Booking Workflow Steps ──────────────────────────────────
+// These match the steps defined in worker/index.ts BookingWorkflow
 export const WORKFLOW_STEPS: StepDefinition[] = [
 	{
-		id: "process-data",
-		name: "process data",
-		description: "Break code into durable steps",
-		lineRange: [3, 7],
+		id: 'send-confirmation',
+		name: 'send confirmation to guest',
+		description: 'Email guest that booking was received',
+		lineRange: [1, 8],
 	},
 	{
-		id: "wait-2-seconds",
-		name: "wait 2 seconds",
-		description: "Add time-based delays",
-		lineRange: [9, 10],
+		id: 'notify-admin',
+		name: 'notify admin',
+		description: 'Send approve/reject link to admin',
+		lineRange: [10, 18],
 	},
 	{
-		id: "wait-for-approval",
-		name: "wait for approval",
-		description: "Pause for external events",
-		lineRange: [12, 16],
+		id: 'wait-for-approval',
+		name: 'wait for admin approval',
+		description: 'Pause for external events (up to 24hrs)',
+		lineRange: [20, 24],
 	},
 	{
-		id: "final",
-		name: "final",
-		description: "Use data from previous steps",
-		lineRange: [18, 22],
+		id: 'send-decision',
+		name: 'send decision email',
+		description: 'Notify guest of approval or rejection',
+		lineRange: [26, 34],
+	},
+	{
+		id: 'send-reminder',
+		name: 'send check-in reminder',
+		description: 'Remind guest 1 day before arrival',
+		lineRange: [36, 42],
 	},
 ];

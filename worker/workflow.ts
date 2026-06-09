@@ -26,7 +26,9 @@ export class MyWorkflow extends WorkflowEntrypoint<
 		) => {
 			try {
 				const doId = this.env.WORKFLOW_STATUS.idFromName(instanceId);
-				const stub = this.env.WORKFLOW_STATUS.get(doId);
+				const stub = this.env.WORKFLOW_STATUS.get(doId) as unknown as {
+					updateStep(stepName: string, status: "running" | "completed" | "waiting"): Promise<void>;
+				};
 				await stub.updateStep(stepName, status);
 			} catch {
 				// Silently fail

@@ -14,21 +14,23 @@
 	"observability": {
 		"enabled": true
 	},
+
 	/**
 	 * Workflows
-	 * Define Workflows to orchestrate multi-step processes
+	 * Booking workflow — handles reservation, approval, emails, reminders
 	 * https://developers.cloudflare.com/workflows/
 	 */
 	"workflows": [
 		{
-			"name": "my-workflow",
+			"name": "booking-workflow",
 			"binding": "MY_WORKFLOW",
-			"class_name": "MyWorkflow"
+			"class_name": "BookingWorkflow"
 		}
 	],
+
 	/**
 	 * Durable Objects
-	 * Used for WebSocket state management and real-time updates
+	 * Used for WebSocket state management and real-time step updates
 	 * https://developers.cloudflare.com/durable-objects/
 	 */
 	"durable_objects": {
@@ -39,6 +41,7 @@
 			}
 		]
 	},
+
 	/**
 	 * Migrations
 	 * Required for Durable Objects
@@ -49,5 +52,18 @@
 			"new_sqlite_classes": ["WorkflowStatusDO"]
 		}
 	],
+
+	/**
+	 * Environment variables (non-secret)
+	 * For secrets like RESEND_API_KEY and ADMIN_EMAIL, use:
+	 *   npx wrangler secret put RESEND_API_KEY
+	 *   npx wrangler secret put ADMIN_EMAIL
+	 *   npx wrangler secret put HOTEL_FROM_EMAIL
+	 *   npx wrangler secret put WORKER_URL
+	 */
+	"vars": {
+		"ENVIRONMENT": "production"
+	},
+
 	"upload_source_maps": true
 }

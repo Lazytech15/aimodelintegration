@@ -1,0 +1,11 @@
+1. Clone it locally
+bashgit clone https://github.com/your-username/your-repo-name
+cd your-repo-name
+2. Install dependencies
+bashnpm install
+3. Login to Cloudflare
+bashnpx wrangler login
+4. Run locally
+bashnpx wrangler dev
+5. Deploy
+bashnpx wrangler deploy
